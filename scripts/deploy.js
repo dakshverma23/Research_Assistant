@@ -74,6 +74,17 @@ try {
   }
   console.log('✅ Client built successfully');
   
+  // Build server
+  console.log('⚙️  Building server...');
+  execSync('npm run build --workspace=server', { stdio: 'inherit' });
+  
+  // Verify server build
+  const serverDistPath = path.join(__dirname, '../server/dist');
+  if (!fs.existsSync(serverDistPath)) {
+    throw new Error('Server build failed - dist directory not found');
+  }
+  console.log('✅ Server built successfully');
+  
   console.log('🎉 Build completed successfully!');
   
 } catch (error) {
