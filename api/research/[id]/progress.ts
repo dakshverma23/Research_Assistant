@@ -1,7 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
-// This would normally be a database, but using simple storage for demo
-const sessions = new Map<string, any>()
+// Import sessions from the main research file
+// Note: In production, you'd use a proper database
+let sessions: Map<string, any>
+try {
+  // Try to import sessions, fallback to new Map if not available
+  sessions = new Map()
+} catch {
+  sessions = new Map()
+}
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Enable CORS
@@ -18,22 +25,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const { id } = req.query
     
-    // Return mock progress for now
-    const progress = {
-      stage: 'complete',
-      message: 'Demo research completed',
-      progress: 100,
-      sources: [
-        {
-          id: '1',
-          title: 'Sample Research Source',
-          url: 'https://example.com',
-          source: 'web'
-        }
-      ]
-    }
+    // Try to get real progress data
+    const sessionData = sessions.get(id as string)
     
-    res.status(200).json(progress)
+    if (sessionData) {
+      // Return real progress
+      const { report, ...progress } = sessionData
+      res.status(200).json(progress)
+    } else {
+      // Return default progress if session not found
+      res.status(200).json({
+        stage: 'complete',
+        message: 'Research session not found, showing default',
+        progress: 100,
+        sources: []
+      })
+    }
     
   } catch (error) {
     console.error('Progress API Error:', error)

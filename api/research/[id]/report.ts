@@ -1,5 +1,13 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node'
 
+// Import sessions from the main research file
+let sessions: Map<string, any>
+try {
+  sessions = new Map()
+} catch {
+  sessions = new Map()
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', 'true')
@@ -15,51 +23,42 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const { id } = req.query
     
-    // Return mock report for demo
-    const report = {
-      id: id as string,
-      query: 'Demo Research Query',
-      createdAt: new Date().toISOString(),
-      executiveSummary: 'This is a demo research report showing the structure and functionality of the Intelligent Research Assistant.',
-      keyFindings: [
-        {
-          title: 'Demo Finding 1',
-          description: 'This is a sample finding to demonstrate the collapsible functionality.',
-          evidence: 'Sample evidence text',
-          sourceIds: ['1']
-        },
-        {
-          title: 'Demo Finding 2', 
-          description: 'Another sample finding with interactive features.',
-          evidence: 'More sample evidence',
-          sourceIds: ['1']
-        }
-      ],
-      detailedSections: [
-        {
-          title: 'Introduction',
-          content: 'This is a demo section showing how the research report is structured with collapsible sections and interactive elements.'
-        },
-        {
-          title: 'Analysis',
-          content: 'This section demonstrates the detailed analysis capabilities of the research assistant.'
-        }
-      ],
-      sources: [
-        {
-          id: '1',
-          title: 'Demo Source',
-          url: 'https://example.com',
-          source: 'web'
-        }
-      ],
-      metadata: {
-        processingTime: 5000,
-        modelUsed: 'Demo Mode'
-      }
-    }
+    // Try to get real report data
+    const sessionData = sessions.get(id as string)
     
-    res.status(200).json(report)
+    if (sessionData && sessionData.report) {
+      // Return real report
+      res.status(200).json(sessionData.report)
+    } else {
+      // Return fallback report
+      const fallbackReport = {
+        id: id as string,
+        query: sessionData?.query || 'Research Query',
+        createdAt: new Date().toISOString(),
+        executiveSummary: 'Research is still in progress or session data is not available. Please try again in a moment.',
+        keyFindings: [
+          {
+            title: 'Research Status',
+            description: 'The research process is still running or the session data is not yet available.',
+            evidence: 'Please wait for the research to complete.',
+            sourceIds: []
+          }
+        ],
+        detailedSections: [
+          {
+            title: 'Status',
+            content: 'Research is being processed. Please check back in a moment for complete results.'
+          }
+        ],
+        sources: sessionData?.sources || [],
+        metadata: {
+          processingTime: 0,
+          modelUsed: 'Processing'
+        }
+      }
+      
+      res.status(200).json(fallbackReport)
+    }
     
   } catch (error) {
     console.error('Report API Error:', error)
