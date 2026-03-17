@@ -4,8 +4,8 @@
   "description": "AI-powered research agent that autonomously researches topics and produces structured reports",
   "private": true,
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=8.0.0"
+    "node": ">=20.0.0",
+    "npm": ">=9.0.0"
   },
   "workspaces": [
     "client",
