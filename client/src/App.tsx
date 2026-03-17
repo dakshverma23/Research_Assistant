@@ -3,7 +3,7 @@ import { Toaster, toast } from 'react-hot-toast'
 import EnhancedQueryInput from './components/EnhancedQueryInput'
 import ProgressIndicator from './components/ProgressIndicator'
 import ReportView from './components/ReportView'
-import { researchQuery, getResearchProgress } from './api/client'
+import { researchQuery } from './api/client'
 import type { ResearchQuery, ResearchProgress, ResearchReport } from 'shared'
 
 function App() {
