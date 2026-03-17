@@ -3,32 +3,19 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    
     "module": "ESNext",
-    "skipLibCheck": true,
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
+    "moduleResolution": "node",
+
     "jsx": "react-jsx",
+
     "strict": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+
     "baseUrl": ".",
     "paths": {
-      "shared": [
-        "./node_modules/shared/dist/index.d.ts",
-        "./node_modules/shared/src/index.ts",
-        "../shared/dist/index.d.ts",
-        "../shared/src/index.ts"
-      ],
-      "shared/*": [
-        "./node_modules/shared/dist/*",
-        "./node_modules/shared/src/*",
-        "../shared/dist/*",
-        "../shared/src/*"
-      ]
+      "shared": ["../shared"],
+      "shared/*": ["../shared/*"]
     }
   },
   "include": ["src"],
