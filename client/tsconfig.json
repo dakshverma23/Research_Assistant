@@ -14,7 +14,22 @@
     "strict": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "shared": [
+        "./node_modules/shared/dist/index.d.ts",
+        "./node_modules/shared/src/index.ts",
+        "../shared/dist/index.d.ts",
+        "../shared/src/index.ts"
+      ],
+      "shared/*": [
+        "./node_modules/shared/dist/*",
+        "./node_modules/shared/src/*",
+        "../shared/dist/*",
+        "../shared/src/*"
+      ]
+    }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
