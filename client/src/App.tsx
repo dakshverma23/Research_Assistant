@@ -3,7 +3,7 @@ import { Toaster, toast } from 'react-hot-toast'
 import EnhancedQueryInput from './components/EnhancedQueryInput'
 import ProgressIndicator from './components/ProgressIndicator'
 import ReportView from './components/ReportView'
-import { researchQuery } from './api/client'
+import { researchQuery, getResearchProgress } from './api/client'
 import type { ResearchQuery, ResearchProgress, ResearchReport } from 'shared'
 
 function App() {
@@ -21,56 +21,44 @@ function App() {
     toast.success('Research started! 🚀')
 
     try {
-      // Show progress updates
-      setProgress({ stage: 'searching', message: 'Searching for sources...', progress: 25 })
-      
-      setTimeout(() => {
-        setProgress({ stage: 'extracting', message: 'Extracting content...', progress: 50 })
-      }, 1000)
-      
-      setTimeout(() => {
-        setProgress({ stage: 'synthesizing', message: 'Generating AI analysis...', progress: 75 })
-      }, 2000)
+      // Start research
+      const researchId = await researchQuery(query)
 
-      // Start research - this now returns the complete result
-      const result = await researchQuery(query)
-      
-      if (result.report) {
-        // Research completed immediately
-        setProgress({ stage: 'complete', message: 'Research completed!', progress: 100 })
-        setReport(result.report)
-        setIsResearching(false)
-        toast.success('Research complete! 🎉')
-      } else {
-        // Fallback to polling if no immediate result
-        const researchId = result.researchId
-        
-        const pollInterval = setInterval(async () => {
-          try {
-            const response = await fetch(`/api/research/${researchId}/report`)
-            if (response.ok) {
-              const reportData = await response.json()
-              setReport(reportData)
-              setProgress({ stage: 'complete', message: 'Research completed!', progress: 100 })
-              setIsResearching(false)
-              toast.success('Research complete! 🎉')
-              clearInterval(pollInterval)
-            }
-          } catch (err) {
-            console.error('Polling error:', err)
+      // Poll for progress
+      const pollInterval = setInterval(async () => {
+        try {
+          const currentProgress = await getResearchProgress(researchId)
+          setProgress(currentProgress)
+
+          // Show toast notifications for major milestones
+          if (currentProgress.stage === 'searching' && currentProgress.sources && currentProgress.sources.length > 0) {
+            toast.success(`Found ${currentProgress.sources.length} sources! 📚`, { id: 'sources-found' })
           }
-        }, 1000)
-        
-        // Stop polling after 30 seconds
-        setTimeout(() => {
-          clearInterval(pollInterval)
-          if (isResearching) {
-            setError('Research took too long. Please try again.')
+
+          if (currentProgress.stage === 'complete' || currentProgress.stage === 'error') {
+            clearInterval(pollInterval)
             setIsResearching(false)
-            toast.error('Research timeout. Please try again.')
+
+            if (currentProgress.stage === 'complete') {
+              // Fetch the report
+              const response = await fetch(`/api/research/${researchId}/report`)
+              if (response.ok) {
+                const reportData = await response.json()
+                setReport(reportData)
+                toast.success('Research complete! 🎉')
+              }
+            } else if (currentProgress.stage === 'error') {
+              setError(currentProgress.error || 'An error occurred during research')
+              toast.error('Research failed. Please try again.')
+            }
           }
-        }, 30000)
-      }
+        } catch (err) {
+          clearInterval(pollInterval)
+          setError('Failed to get research progress')
+          setIsResearching(false)
+          toast.error('Connection error. Please check your server.')
+        }
+      }, 500)
 
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to start research')

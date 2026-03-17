@@ -2,7 +2,7 @@ import type { ResearchQuery, ResearchProgress } from 'shared'
 
 const API_BASE = '/api'
 
-export async function researchQuery(query: ResearchQuery): Promise<{ researchId: string, report?: any }> {
+export async function researchQuery(query: ResearchQuery): Promise<string> {
   const response = await fetch(`${API_BASE}/research`, {
     method: 'POST',
     headers: {
@@ -17,7 +17,7 @@ export async function researchQuery(query: ResearchQuery): Promise<{ researchId:
   }
 
   const data = await response.json()
-  return data
+  return data.researchId
 }
 
 export async function getResearchProgress(researchId: string): Promise<ResearchProgress> {
