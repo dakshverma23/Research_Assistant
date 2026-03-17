@@ -2,7 +2,7 @@
 
 export interface ResearchQuery {
   query: string;
-  sources?: ('web' | 'wikipedia' | 'news')[];
+  sources?: ('web' | 'wikipedia' | 'news' | 'academic')[];
   maxResults?: number;
 }
 
@@ -11,7 +11,7 @@ export interface Source {
   title: string;
   url: string;
   snippet: string;
-  source: 'web' | 'wikipedia' | 'news';
+  source: 'web' | 'wikipedia' | 'news' | 'academic';
   retrievedAt: Date;
 }
 

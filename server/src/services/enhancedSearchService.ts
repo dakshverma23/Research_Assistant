@@ -150,7 +150,7 @@ class EnhancedSearchService {
       throw new Error(`Google Search API error: ${response.status}`)
     }
 
-    const data = await response.json()
+    const data = await response.json() as any
 
     return (data.items || []).map((item: any) => ({
       title: item.title,
@@ -178,7 +178,7 @@ class EnhancedSearchService {
       throw new Error(`Bing Search API error: ${response.status}`)
     }
 
-    const data = await response.json()
+    const data = await response.json() as any
 
     return (data.webPages?.value || []).map((item: any) => ({
       title: item.name,
@@ -207,7 +207,7 @@ class EnhancedSearchService {
       throw new Error(`Brave Search API error: ${response.status}`)
     }
 
-    const data = await response.json()
+    const data = await response.json() as any
 
     return (data.web?.results || []).map((item: any) => ({
       title: item.title,
@@ -228,7 +228,7 @@ class EnhancedSearchService {
       throw new Error(`Wikipedia API error: ${response.status}`)
     }
 
-    const data = await response.json()
+    const data = await response.json() as any
 
     return (data.query?.search || []).map((result: any) => ({
       title: result.title,
