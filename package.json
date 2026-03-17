@@ -20,11 +20,15 @@
     "start:prod": "NODE_ENV=production npm run start --workspace=server",
     "lint": "npm run lint --workspaces",
     "typecheck": "npm run typecheck --workspaces",
-    "deploy:setup": "npm install -g vercel @railway/cli",
+    "deploy:setup": "npm install -g vercel",
     "deploy:build": "npm run build:all"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "@vercel/node": "^3.0.0"
+  },
+  "dependencies": {
+    "uuid": "^9.0.0"
   }
 }

@@ -1,6 +1,6 @@
 import type { ResearchQuery, ResearchProgress } from 'shared'
 
-const API_BASE = import.meta.env.VITE_API_URL || '/api'
+const API_BASE = '/api'
 
 export async function researchQuery(query: ResearchQuery): Promise<string> {
   const response = await fetch(`${API_BASE}/research`, {
