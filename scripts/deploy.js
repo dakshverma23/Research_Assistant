@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 
 console.log('🚀 Starting deployment build...');
+console.log('📍 Current directory:', process.cwd());
 
 try {
   // Build shared package first
@@ -17,6 +18,7 @@ try {
     throw new Error('Shared package build failed - dist directory not found');
   }
   console.log('✅ Shared package built successfully');
+  console.log('📂 Shared dist contents:', fs.readdirSync(sharedDistPath));
   
   // Ensure client node_modules exists
   const clientNodeModules = path.join(__dirname, '../client/node_modules');
@@ -73,21 +75,37 @@ try {
     throw new Error('Client build failed - dist directory not found');
   }
   console.log('✅ Client built successfully');
+  console.log('📂 Client dist contents:', fs.readdirSync(clientDistPath).slice(0, 5));
   
   // Build server
   console.log('⚙️  Building server...');
+  console.log('📍 Server source path:', path.join(__dirname, '../server'));
   execSync('npm run build --workspace=server', { stdio: 'inherit' });
   
   // Verify server build
   const serverDistPath = path.join(__dirname, '../server/dist');
+  console.log('🔍 Checking for server dist at:', serverDistPath);
+  
   if (!fs.existsSync(serverDistPath)) {
-    throw new Error('Server build failed - dist directory not found');
+    console.error('❌ Server dist directory not found!');
+    console.error('📂 Server directory contents:', fs.readdirSync(path.join(__dirname, '../server')));
+    throw new Error('Server build failed - dist directory not found at ' + serverDistPath);
   }
+  
   console.log('✅ Server built successfully');
+  console.log('📂 Server dist contents:', fs.readdirSync(serverDistPath));
+  
+  // Final verification
+  const serverIndexPath = path.join(serverDistPath, 'index.js');
+  if (!fs.existsSync(serverIndexPath)) {
+    throw new Error('Server index.js not found at ' + serverIndexPath);
+  }
+  console.log('✅ Server index.js verified at:', serverIndexPath);
   
   console.log('🎉 Build completed successfully!');
   
 } catch (error) {
   console.error('❌ Build failed:', error.message);
+  console.error('Stack:', error.stack);
   process.exit(1);
 }
