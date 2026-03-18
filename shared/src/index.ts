@@ -1,4 +1,4 @@
-// Shared types for Intelligent Research Assistant
+// Shared types for ResearchAI
 
 export interface ResearchQuery {
   query: string;

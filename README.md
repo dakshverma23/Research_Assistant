@@ -1,8 +1,8 @@
-# Intelligent Research Assistant (IRA)
+# ResearchAI
 
 An AI-powered research agent that autonomously researches topics, gathers relevant information from multiple sources, synthesizes findings using AI, and produces structured reports.
 
-![Intelligent Research Assistant](https://img.shields.io/badge/AI-Powered-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue) ![React](https://img.shields.io/badge/React-18-blue) ![Node.js](https://img.shields.io/badge/Node.js-18+-green)
+![ResearchAI](https://img.shields.io/badge/AI-Powered-blue) ![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue) ![React](https://img.shields.io/badge/React-18-blue) ![Node.js](https://img.shields.io/badge/Node.js-18+-green)
 
 ## 🌟 Features
 
@@ -17,7 +17,7 @@ An AI-powered research agent that autonomously researches topics, gathers releva
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
-│                        INTELLIGENT RESEARCH ASSISTANT                │
+│                             RESEARCHAI                               │
 ├─────────────────────────────────────────────────────────────────────┤
 │  ┌──────────────┐    ┌──────────────┐    ┌──────────────────────┐   │
 │  │   FRONTEND   │◄──►│   BACKEND    │◄──►│   AI MODEL LAYER    │   │

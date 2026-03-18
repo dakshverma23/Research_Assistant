@@ -40,7 +40,7 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
 
 // Start server
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Intelligent Research Assistant running on port ${PORT}`)
+  console.log(`🚀 ResearchAI running on port ${PORT}`)
   console.log(`📡 OpenRouter AI Model: ${config.aiModel}`)
   console.log(`🔍 Ready to accept research queries`)
   console.log(`🌍 Environment: ${process.env.NODE_ENV}`)

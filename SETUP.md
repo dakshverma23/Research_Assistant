@@ -1,8 +1,8 @@
-# Intelligent Research Assistant - Setup Guide
+# ResearchAI - Setup Guide
 
 ## ✅ Project Status
 
-Your Intelligent Research Assistant is now **fully set up and running**!
+Your ResearchAI platform is now **fully set up and running**!
 
 ## 🚀 Current Status
 

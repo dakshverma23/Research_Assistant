@@ -136,7 +136,7 @@ Please synthesize this information into a comprehensive research report. Remembe
         'Authorization': `Bearer ${this.apiKey}`,
         'Content-Type': 'application/json',
         'HTTP-Referer': 'http://localhost:3000',
-        'X-Title': 'Intelligent Research Assistant'
+        'X-Title': 'ResearchAI'
       },
       body: JSON.stringify({
         model: this.model,
